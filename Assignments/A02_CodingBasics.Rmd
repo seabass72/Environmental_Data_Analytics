@@ -74,23 +74,32 @@ Student_names <- c("shannon","clark","colette", "mark")      # character vector
 Test_scores <- c(92, 78, 83, 49)                          # numeric vector
 
 # create a vector with t/f to see if they passed the test    
-Passed_Test <- c(TRUE, TRUE, TRUE, FALSE)       # logic vector
+IF_Passed_Test <- c(TRUE, TRUE, TRUE, FALSE)       # logic vector
 
 # create a dataframe 
 
- Student_Progress<- data.frame(Student_names, Test_scores, Passed_Test)
+ Student_Progress<- data.frame(Student_names, Test_scores, IF_Passed_Test)
 
 ```
 
 9. QUESTION: How is this data frame different from a matrix?
 
-> ANSWER: 
+> ANSWER: This dataframe is composed of more than one data type (numeric, character, logical) whereas a matrix consists of one data type. A dataframe combines features of matrices and lists.
 
 10. Create a function with an if/else statement. Your function should determine whether a test score is a passing grade of 50 or above (TRUE or FALSE). You will need to choose either the `if` and `else` statements or the `ifelse` statement. The name of your function should be informative.
 
 11. Apply your function to the vector with test scores that you created in number 5. 
 
 ```{r}
+# creating the function to tell if you passed or failed the test using ifelse
+
+Passed_the_Test <-  function(Test_score) {
+  passed <- (ifelse(Test_score > 50, "Passed", "Failed"))
+  return(passed)
+}
+
+# testing the function
+Passed_the_Test(Test_scores)
 
 ```
 
