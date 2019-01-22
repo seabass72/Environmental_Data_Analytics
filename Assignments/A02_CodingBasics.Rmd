@@ -80,6 +80,7 @@ IF_Passed_Test <- c(TRUE, TRUE, TRUE, FALSE)       # logic vector
 
  Student_Progress<- data.frame(Student_names, Test_scores, IF_Passed_Test)
 
+ names(Student_Progress) <- c("Name","Score","Passed")
 ```
 
 9. QUESTION: How is this data frame different from a matrix?
@@ -91,6 +92,18 @@ IF_Passed_Test <- c(TRUE, TRUE, TRUE, FALSE)       # logic vector
 11. Apply your function to the vector with test scores that you created in number 5. 
 
 ```{r}
+
+# creating function if and else statement 
+
+passed_test_of <- function(Test_score) {
+  Passed <- if (Test_score > 50) {
+    print("Passed")}
+  else {print("Failed")
+    }
+  }
+
+passed_test_of(Test_scores) # the function with else and if statement does not work because you are inputting more than one                                  value. You need to put in a for loop to cycle through the test scores.
+
 # creating the function to tell if you passed or failed the test using ifelse
 
 Passed_the_Test <-  function(Test_score) {
@@ -101,8 +114,9 @@ Passed_the_Test <-  function(Test_score) {
 # testing the function
 Passed_the_Test(Test_scores)
 
+
 ```
 
 12. QUESTION: Which option of `if` and `else` vs. `ifelse` worked? Why?
 
-> ANSWER: 
+> ANSWER: The ifelse statement created the function that worked whereas the if and else statement function did not work because it required a for loop to cycle through the test score inputs. 
