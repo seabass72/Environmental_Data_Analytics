@@ -102,7 +102,7 @@ passed_test_if <- function(Test_score) {
     }
   }
 
-passed_test_of(Test_scores) # the function with else and if statement does not work because you are inputting more than one                                  value. You need to put in a for loop to cycle through the test scores.
+passed_test_if(Test_scores) # the function with else and if statement does not work because you are inputting more than one                                  value. You need to put in a for loop to cycle through the test scores.
 
 # creating the function to tell if you passed or failed the test using ifelse
 
