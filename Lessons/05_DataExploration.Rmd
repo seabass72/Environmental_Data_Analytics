@@ -101,7 +101,7 @@ colnames(USGS.flow.data) <- c("agency_cd", "site_no", "datetime",
                               "gage.height.max", "gage.height.max.approval", 
                               "gage.height.min", "gage.height.min.approval", 
                               "gage.height.mean", "gage.height.mean.approval")
-str(USGS.flow.data)
+str(USGS.flow.data)         # structure gives a background of the data 
 dim(USGS.flow.data)
 length(USGS.flow.data)
 
