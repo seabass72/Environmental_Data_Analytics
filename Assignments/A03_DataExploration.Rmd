@@ -39,7 +39,7 @@ library(tidyverse)
 
 # upload csv for north temperate lakes 
 
-temp_L_raw<-read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv")
+temp_L_raw<-read.csv("../Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv")
 ```
 
 ## 2) Learn about your system
