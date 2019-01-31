@@ -106,7 +106,7 @@ head(temp_L_raw$sampledate,10)
 
 Question: Do you want to remove NAs from this dataset? Why or why not?
 
-> ANSWER: 
+> ANSWER: For this assignment, the removal of NAs is not necessary because we are not doing any statistical analysis that would require the removal of the NAs. Additionally, we do not know what the NAs represent because it was not stated in the readme document. If they represented levels below detection it maybe warranted to leave them in, but if they are just no sampling or data then removing them would be fine. 
 
 
 ## 4) Explore your data graphically
@@ -122,6 +122,10 @@ Write R commands to display graphs depicting:
 7. Scatterplot of temperature by depth
 
 ```{r}
+
+# load ggplot
+
+library(ggplot2)
 # 1 bar chart of temp counts for each lake 
 
 ggplot(temp_L_raw, aes(temperature_C)) +
@@ -159,11 +163,12 @@ P<- ggplot(temp_L_raw) +
 
 P+ scale_y_reverse() + scale_x_continuous(position = 'top')
 ```
+
 ## 5) Form questions for further data analysis
 
 What did you find out about your data from the basic summaries and graphs you made? Describe in 4-6 sentences.
 
-> ANSWER: 
+> ANSWER: I found out that the sampling frequency of all the temperate lakes highly varied over the sampling period. I also observed that the chemical nd physical parameters had a high amount of NAs, which definitely had to be accounted for. Most of the lakes had a distinct thermocline and showed that with increasing depth, the temperature decreased. Additionally, the temperature range in celsius between all the lakes was 0.30˚C - 34.10˚C.
 
 What are 3 further questions you might ask as you move forward with analysis of this dataset?
 
