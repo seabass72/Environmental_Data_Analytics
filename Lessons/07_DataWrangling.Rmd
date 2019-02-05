@@ -1,5 +1,5 @@
 ---
-title: "6: Data Exploration"
+title: "7: Data Wrangling"
 author: "Environmental Data Analytics | Kateri Salk"
 date: "Spring 2019"
 output: pdf_document
@@ -24,6 +24,7 @@ In assignment 3, you explored the North Temperate Lakes Long-Term Ecological Res
 We will continue working with this dataset today. 
 
 ```{r}
+
 getwd()
 library(tidyverse)
 NTL.phys.data <- read.csv("./Data/Raw/NTL-LTER_Lake_ChemistryPhysics_Raw.csv")
@@ -107,13 +108,17 @@ NTL.phys.data.JunethruOctober4 <- filter(NTL.phys.data, daynum %in% c(152:304))
 # filter NTL.phys.data for the year 1999
 # what code do you need to use, based on the class of the variable?
 class(NTL.phys.data$year4)
+NTL.phys.data.1993 <- filter(NTL.phys.data, year4 == 1999)
 
 # Exercise: 
 # filter NTL.phys.data for Tuesday Lake from 1990 through 1999.
 
+NTL.phys.data.tues.1990_1999<- filter(NTL.phys.data, lakename == "Tuesday Lake", year4 > 1989, year4 < 2000)
+
 
 ```
 Question: Why don't we filter using row numbers?
+
 > ANSWER: 
 
 ### Arrange
@@ -125,7 +130,9 @@ NTL.phys.data.depth.ascending <- arrange(NTL.phys.data, depth)
 NTL.phys.data.depth.descending <- arrange(NTL.phys.data, desc(depth))
 
 # Exercise: 
-# Arrange NTL.phys.data by temperature, in descending order. 
+# Arrange NTL.phys.data by temperature, in descending order.
+NTL.phys.data.temp.descending <- arrange(NTL.phys.data, desc(temperature_C))
+
 # Which dates, lakes, and depths have the highest temperatures?
 
 
