@@ -33,18 +33,18 @@ The completed exercise is due on Thursday, 7 February, 2019 before class begins.
 2. Generate a few lines of code to get to know your datasets (basic data summaries, etc.).
 
 ```{r}
-#1 check working directory and load the tidyverse package
 
+#1 check working directory and load the tidyverse package
 getwd()
 library(tidyverse)
 
 # load the csv of the 4 epa datasets
 
-epa_air_O3_17<- read.csv("./Data/RAW/EPAair_O3_NC2017_raw.csv")
-epa_air_O3_18<- read.csv("./Data/RAW/EPAair_O3_NC2018_raw.csv")
+epa_air_O3_17<- read.csv("../Data/RAW/EPAair_O3_NC2017_raw.csv")
+epa_air_O3_18<- read.csv("../Data/RAW/EPAair_O3_NC2018_raw.csv")
 
-epa_air_PM25_17<- read.csv("./Data/RAW/EPAair_PM25_NC2017_raw.csv")
-epa_air_PM25_18<- read.csv("./Data/RAW/EPAair_PM25_NC2018_raw.csv")
+epa_air_PM25_17<- read.csv("../Data/RAW/EPAair_PM25_NC2017_raw.csv")
+epa_air_PM25_18<- read.csv("../Data/RAW/EPAair_PM25_NC2018_raw.csv")
 
 
 
@@ -109,13 +109,13 @@ epa_air_PM25_18_sub$AQS_PARAMETER_DESC<- "PM2.5"
 
 #6 save the processed files 
 
-write.csv(epa_air_PM25_17_sub, row.names = FALSE, file = "./Data/Processed/epa_air_PM25_17_processed.csv")
+write.csv(epa_air_PM25_17_sub, row.names = FALSE, file = "../Data/Processed/epa_air_PM25_17_processed.csv")
 
-write.csv(epa_air_PM25_18_sub, row.names = FALSE, file = "./Data/Processed/epa_air_PM25_18_processed.csv")
+write.csv(epa_air_PM25_18_sub, row.names = FALSE, file = "../Data/Processed/epa_air_PM25_18_processed.csv")
 
-write.csv(epa_air_O3_17_sub, row.names = FALSE, file = "./Data/Processed/epa_air_O3_17_processed.csv")
+write.csv(epa_air_O3_17_sub, row.names = FALSE, file = "../Data/Processed/epa_air_O3_17_processed.csv")
 
-write.csv(epa_air_O3_18_sub, row.names = FALSE, file = "./Data/Processed/epa_air_O3_18_processed.csv")
+write.csv(epa_air_O3_18_sub, row.names = FALSE, file = "../Data/Processed/epa_air_O3_18_processed.csv")
 
 ```
 
@@ -124,7 +124,7 @@ write.csv(epa_air_O3_18_sub, row.names = FALSE, file = "./Data/Processed/epa_air
 7. Combine the four datasets with `rbind`. Make sure your column names are identical prior to running this code. 
 8. Wrangle your new dataset with a pipe function (%>%) so that it fills the following conditions: 
 
-* Sites: Blackstone, Bryson City, Castle Hayne, Leggett, Triple Oak
+* Sites: Blackstone, Bryson City, Triple Oak
 * Add columns for "Month" and "Year" by parsing your "Date" column (hint: `separate` function or `lubridate` package)
 
 9. Spread your datasets such that AQI values for ozone and PM2.5 are in separate columns. Each location on a specific date should now occupy only one row.
@@ -132,15 +132,31 @@ write.csv(epa_air_O3_18_sub, row.names = FALSE, file = "./Data/Processed/epa_air
 11. Save your processed dataset with the following file name: "EPAair_O3_PM25_NC1718_Processed.csv"
 
 ```{r}
-#8 combine the four datasets with rbind 
+#7 combine the four datasets with rbind 
 
 EPA_air_O3_PM25_1718 <-rbind(epa_air_O3_17_sub, epa_air_O3_18_sub, epa_air_PM25_17_sub, epa_air_PM25_18_sub)
 
-#9
+#8 wrangle new dataset with pipe function
 
-#10
+library(lubridate)
+
+EPA_air_O3_PM25_1718_pipe <- 
+  EPA_air_O3_PM25_1718 %>%
+  filter(Site.Name == "Blackstone" |Site.Name == "Bryson City" | Site.Name == "Triple Oak" ) %>%
+  mutate(month = month(Date))%>%
+  mutate(year = year(Date)) %>%
+  spread(AQS_PARAMETER_DESC, DAILY_AQI_VALUE)%>%              #9 step put the spread function in the pipe                                                                                function b/c it was easier 
+  select(Date, month, year, Site.Name, SITE_LATITUDE:PM2.5)
+
+
+#10 call up the dimensions of the tidy dataset
+
+dim(EPA_air_O3_PM25_1718_pipe)
 
 #11
+
+write.csv(EPA_air_O3_PM25_1718_pipe, row.names = FALSE, 
+          file = "../Data/Processed/EPAair_O3_PM25_NC1718_Processed.csv")
 
 ```
 
@@ -152,11 +168,34 @@ b. A summary table of the mean, minimum, and maximum AQI values of O3 and PM2.5 
 13. Display the data frames.
 
 ```{r}
-#12a
+#12a pipe function with the use of the split-apply combine strategy 
 
-#12b
+Mean_AQI_Month <- 
+  EPA_air_O3_PM25_1718_pipe %>%
+  group_by(month) %>%
+  filter(!is.na(Ozone) & !is.na(PM2.5)) %>%
+  summarise(mean_AQI_O3 = mean(Ozone), 
+            Mean_AQI_PM2.5 = mean(PM2.5) )
+            
 
-#13
+#12b  A summary table of the mean, minimum, and maximum AQI values of O3 and PM2.5 for each site 
+
+Mean.min.max_AQI.per.site <-
+  EPA_air_O3_PM25_1718_pipe %>%
+  group_by(Site.Name) %>%
+  filter(!is.na(Ozone) & !is.na(PM2.5)) %>%
+  summarise(Mean_AQI_O3 = mean(Ozone),
+            Mean_AQI_PM2.5 = mean(PM2.5),
+            Max_AQI_O3 = max(Ozone),
+            Max_AQI_PM2.5 = max(PM2.5),
+            Min_AQI_O3 = max(Ozone),
+            Min_AQI_PM2.5 = max(PM2.5))
+
+#13 display the dataframes 
+
+print(Mean_AQI_Month)
+print(Mean.min.max_AQI.per.site)
+
 
 ```
 
