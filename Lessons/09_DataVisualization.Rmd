@@ -151,18 +151,22 @@ print(tempvsdepth)
 
 NvsP <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth)) +
-  geom_point() #+
-  #geom_smooth(method = lm) +
+  geom_point() +
+  geom_smooth(method = lm) +
   #geom_abline(aes(slope = 16, intercept = 0))
 print(NvsP)
 
 # Exercise: Plot relationships between air quality measurements
 
 # 1. 
-# Plot AQI values for ozone by PM2.5, colored by site. 
+# Plot AQI values for ozone by PM2.5, colored by site.
+AQI_plot <- 
+  ggplot (EPAair, aes( x= Ozone, y = PM2.5, color = Site.Name)) +
+  geom_point() +
+  
+print(AQI_plot)
 # Add a line of best fit for the linear regression of these variables.
 
-  
 ```
 
 ### Plotting continuous vs. categorical variables
@@ -226,9 +230,27 @@ Nutrientplot7 <-
 print(Nutrientplot7)
 
 # Exercise: Plot distributions of AQI values for EPAair
+EPAsummary <- 
+  EPAair %>%
+  group_by(Site.Name, year) %>%
+
+summarise(sd = (sd(PM2.5, na.rm = TRUE)),
+        mean = (mean(PM2.5, na.rm = TRUE)))
+        
+      
 
 # 1. 
 # Create a bar chart plus standard deviation error bars for PM2.5, divided by year. 
+
+aq_bar <- 
+  ggplot(EPAair) + 
+  geom_bar(aes(x = as.factor(year), y = PM2.5, fill = Site.Name), 
+           position = "dodge", stat = "summary", fun.y = "mean") +
+ geom_errorbar(aes(ymin = mean-sd, ymax = mean+sd), 
+                 position = "dodge")
+print(aq_bar)
+
+
 # Create separate bars for each site. 
 
 # 2. 
