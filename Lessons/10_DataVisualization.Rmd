@@ -72,7 +72,7 @@ mytheme <- theme_classic(base_size = 14) +
 
 O3plot5 <- ggplot(EPAair) +
   geom_point(aes(x = Date, y = Ozone)) +
-  mytheme
+  theme_SB
 print(O3plot5)  
 
 theme_set(mytheme)
@@ -138,11 +138,11 @@ print(NvsP)
 NvsP2 <-
   ggplot(PeterPaul.chem.nutrients, aes(x = tp_ug, y = tn_ug, color = depth, shape = lakename)) +
   geom_point(alpha = 0.8, size = 3) +
-  #xlab() +
-  #ylab() +
+  xlab("Total Phosphorus (ug/L)") +
+  ylab("Total Nitrogen (\U0038g/L)") +
   # change your legend labels here
   scale_shape_manual(values = c(15, 17)) +
-  #scale_color_distiller(palette = "Blues", direction = 1) + # use scale_color_brewer for discrete variables
+  scale_color_distiller(palette = "Blues", direction = 1) + # use scale_color_brewer for discrete variables
   scale_color_viridis(option = "magma", direction = -1) +
   theme(legend.position = "right", 
         legend.text = element_text(size = 12), legend.title = element_text(size = 12))
@@ -157,7 +157,7 @@ Nutrientplot <-
 # place your additional edits here
   scale_y_continuous(expand = c(0, 0)) +
   #scale_color_brewer(palette = "YlGnBu") +
-  #scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84")) +
+  scale_color_manual(values = c("#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84")) +
   #scale_color_viridis(discrete = TRUE) +
   theme(legend.position = "right")
 print(Nutrientplot)
@@ -171,7 +171,7 @@ PMplot.faceted <-
   geom_point() +
   facet_grid(Site.Name ~ year) + 
   scale_x_continuous(breaks = c(1:12)) +
-  #theme(strip.background = element_rect(fill = "black"), strip.text = element_text(color = "white"))
+  theme(strip.background = element_rect(fill = "black"), strip.text = element_text(color = "white")) +
   ylab(expression("PM 2.5 AQI Value")) 
 print(PMplot.faceted)
 
@@ -181,7 +181,7 @@ print(PMplot.faceted)
 In situations where facets don't fill our needs to place multiple plots on a page, we can use the package `gridExtra` to arrange plots. The `grid.arrange` function is extremely flexible in its ability to arrange plots in specific configurations. A useful guide can be found here: https://cran.r-project.org/web/packages/egg/vignettes/Ecosystem.html.
 
 ```{r, fig.height = 7, fig.width = 6}
-#install.packages("gridExtra")
+install.packages("gridExtra")
 library(gridExtra)
 grid.arrange(NvsP2, Nutrientplot)
 grid.arrange(O3plot7, PMplot.faceted)
