@@ -265,7 +265,8 @@ ECO_TOX_plot <- ggplot(eco_tox_mg, aes( x = Chemical.Name, y = Conc..Mean..Std.,
                                  "#01665e"))+
 scale_x_discrete(labels = abbreviate)+
   ggtitle("Mean Concentrations of Chemicals")+
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))+
+  
 
   
 
