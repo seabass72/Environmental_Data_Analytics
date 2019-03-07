@@ -19,14 +19,19 @@ editor_options:
 ```{r, message = FALSE, warning = FALSE}
 getwd()
 library(tidyverse)
-#install.packages("lubridate")
+install.packages("lubridate")
 library(lubridate)
-#install.packages("nlme")
+install.packages("nlme")
 library(nlme)
-#install.packages("lsmeans")
+install.packages("lsmeans")
 library(lsmeans)
-#install.packages("multcompView")
+install.packages("multcompView")
 library(multcompView)
+library(ggplot2)
+install.packages("emmeans")
+install.packages("mvtnorm")
+library(emmeans)
+
 
 PeterPaul.chem <- read.csv("./Data/Processed/NTL-LTER_Lake_ChemistryPhysics_PeterPaul_Processed.csv")
 
@@ -130,9 +135,11 @@ cld(TempTest.posthoc, alpha = 0.05, Letters = letters, adjust = "tukey")
 ggplot(PeterPaul.summertemp, aes(x = sampledate, y = temperature_C, color = lakename)) +
   geom_point() +
   scale_color_manual(values = c("#7fcdbb", "#253494")) +
-  geom_abline(intercept = 20.47, slope = 0.0001)
+  geom_abline(intercept = 20.47, slope = 0.0001)+
+  xlab(Year)+
+  ylab(Temperature )
 ```
 
 Question: How would you interpret the collective results of your mixed effects model in the context of the study question?
 
-> ANSWER: 
+> ANSWER: there is a massive increase AIC. Accounting for more variability with the mix effect of weeks.
