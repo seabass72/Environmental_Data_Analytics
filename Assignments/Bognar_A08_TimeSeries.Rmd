@@ -52,9 +52,9 @@ library(emmeans)
 
 #upload EPA air quality raw dataset for pm2.5 and processed NTL_LTER dataset for peter and paul
 
-RAW_EPA_PM2.5 <- read_csv("../Data/Raw/EPAair_PM25_NC2018_raw.csv")
+RAW_EPA_PM2.5 <- read.csv("../Data/Raw/EPAair_PM25_NC2018_raw.csv")
 
-Peterpaul_Nutrients_Processed<-read_csv("../Data/Processed/NTL-LTER_Lake_Nutrients_PeterPaul_Processed.csv")
+Peterpaul_Nutrients_Processed<-read.csv("../Data/Processed/NTL-LTER_Lake_Nutrients_PeterPaul_Processed.csv")
 
 #change name of PM2.5 colname
 
@@ -159,7 +159,7 @@ ACF(AUTO_EPA)
 MIXED_EPA <- lme(data = RAW_EPA_PM2.5,
                      PM2.5 ~ Date, 
                      random = ~1|Site.Name,
-                     correlation = corAR1(form = ~ sampledate|Site.Name, value = 0.369),
+                     correlation = corAR1(form = ~ Date|Site.Name, value = 0.514),
                      method = "REML")
 
 summary(MIXED_EPA)
@@ -168,7 +168,7 @@ summary(MIXED_EPA)
 
 Is there a significant increasing or decreasing trend in PM2.5 concentrations in 2018? 
 
-> ANSWER: There is a significan decreasing trend in PM2.5 concentrations in 2018 (Mixed Effects Linear model; p < 0.042; DF = 339). The equation for PM2.5 concentrations in 2018: [PM2.5] = 82.23 - 0.0043*(Date).
+> ANSWER: There was no significant decreasing trend in PM2.5 concentrations in 2018 (Mixed Effects Linear model; p = 0.214; DF = 339). The equation for PM2.5 concentration in 2018: [PM2.5] = 83.15 - 0.0043*(Date).
 
 3e. Run a fixed effects model with Date as the only explanatory variable. Then test whether the mixed effects model is a better fit than the fixed effect model. 
 
@@ -191,7 +191,7 @@ anova(Fixed_EPA,MIXED_EPA)
 
 Which model is better?
 
-> ANSWER: The mixed effects model of PM2.5 concentration accounts for more of the variability than the fixed effects model, which indicates that the mixed effects model is better model (ANOVA; p<0.001).
+> ANSWER: The fixed effects model of PM2.5 concentration accounts for more of the variability than the mixed effects model, which indicates that the fixed effects model is better model (ANOVA; p<0.001).There was significant decreasing trend in PM2.5 concentrations in 2018 (Fixed Effects Linear model; p = 0.0091; DF = 339). The equation for PM2.5 concentration in 2018: [PM2.5] = 98.58 - 0.0051*(Date). 
 
 
 ## Run a Mann-Kendall test
@@ -221,10 +221,10 @@ pettitt.test(Peter.nutrients.surface$tn_ug)
 
 #test if there is another change point
 
-pettitt.test(Peter.nutrients.surface$tn_ug[37:99])
+pettitt.test(Peter.nutrients.surface$tn_ug[37:98])
 
 
-pettitt.test(Peter.nutrients.surface$tn_ug[58:99])
+pettitt.test(Peter.nutrients.surface$tn_ug[58:98])
 
 #test for change points in paul lake
 
@@ -234,8 +234,8 @@ pettitt.test(Paul.nutrients.surface$tn_ug)
 #mann kendall tests peter lake
 mk.test(Peter.nutrients.surface$tn_ug)
 mk.test(Peter.nutrients.surface$tn_ug[1:36])
-mk.test(Peter.nutrients.surface$tn_ug[37:99])
-mk.test(Peter.nutrients.surface$tn_ug[58:99])
+mk.test(Peter.nutrients.surface$tn_ug[37:98])
+mk.test(Peter.nutrients.surface$tn_ug[58:98])
 
 #mann-kendall test paul lake
 
@@ -262,16 +262,11 @@ theme(plot.title = element_text(size = 12 ))+
 theme(plot.title = element_text(hjust = 0.5))+
 scale_color_manual(values = c('#fdae6b','#e6550d'))+
 labs(color="Lake Name")+
-geom_vline(xintercept=as.Date("1993-06-02"), linetype="dashed", col = 'black')+
-geom_vline(xintercept=as.Date("1994-06-29"), linetype="dashed", col = 'black')
-
+geom_vline(xintercept=as.Date("1993-06-02"), linetype="dashed", col = 'black', show.legend =TRUE)+
+geom_vline(xintercept=as.Date("1994-06-29"), linetype="dashed", col = 'black',show.legend = TRUE)
 
 
 TN_PETER_PAUL_PLOT
-
-ggplot(PeterPaul.nutrients.surface, aes(x = sampledate, y = tp_ug, color = lakename)) + 
-  geom_point() +
-  scale_color_manual(values = c("#7fcdbb", "#253494"))
 
 ```
 
