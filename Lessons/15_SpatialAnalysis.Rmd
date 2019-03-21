@@ -77,8 +77,8 @@ This is more of a proof of concept than a useful map. We can sort of visualize s
 See https://rdrr.io/cran/mapview/man/mapviewOptions.html for more info.
 ```{r Plot EPA locations with `mapview`}
 #(Install and) Load the mapView package
-remove.packages("mapview")
-install.packages("mapview", dependencies = TRUE)
+
+
 library(mapview)
 
 #Set the available map backgrounds
@@ -106,7 +106,7 @@ Much better, no? And interactive! But while MapView loosely follows a familiar g
 See http://rstudio.github.io/leaflet/ for more info
 ```{r Plot with leaflet}
 #Import libraries 
-install.packages('leaflet')
+
 library(leaflet)
 
 #Create the map and add Tiles
@@ -148,7 +148,7 @@ Let's explore a few examples to familiarize ourselves with the `sf` package.
 First, let's convert our EPA dataframe to a simple features ("sf") dataframe and explore what's different:
 ```{r Create simple features from lat/lng fields}
 #Import the sf library
-install.packages('sf')
+
 library(sf)
 
 #Convert the dataset to a spatially enabled "sf" data frame
