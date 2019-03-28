@@ -494,7 +494,8 @@ demog_df <- read.csv('./Data/Spatial/NC_Demography.csv') %>%
 
 #Join the two datasets using "GEOID" from the left dataset and "FIPS" from the right
 counties_sf_utm_join <- counties_sf_utm %>% 
-  left_join(y = demog_df,by = c("GEOID" =  "FIPS"))
+  left_join(y = demog_df,by = c("GEOID" =  "FIPS"))%>%
+  drop_na(counties_sf_utm)
 
 #Check the dimensions
 dim(counties_sf_utm)
