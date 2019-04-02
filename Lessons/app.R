@@ -52,7 +52,7 @@ server <- function(input, output) {
      } else if(n < 50){
        bins <- 20
      } else if(n <= 500){
-       bins <- 30
+       bins <- 50
      }
      
      set.seed(1001) # prevent output from changing based on plot type
