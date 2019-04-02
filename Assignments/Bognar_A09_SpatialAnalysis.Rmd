@@ -1,12 +1,15 @@
 ---
-title: "Assignment: Spatial Analysis in R"
+title: 'Assignment: Spatial Analysis in R'
 author: "Sebastian Bognar"
-output:
-  html_document:
-    toc: true
-    toc_depth: 2
-    theme: "cosmo"
 geometry: margin=2.54cm
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_depth: 2
 editor_options:
   chunk_output_type: console
 ---
@@ -187,7 +190,6 @@ ggplot() +
 
 ### 9. Select the gages falling within a given county
 Now let's zoom into a particular county and examine the gages located there. 
-* Import the HUC8 dataset (`NE_HUC8s_prj.shp` in the Data\Spatial folder)
 * Select Lancaster county from your county sf dataframe
 * Select the gage sites falling `within` that county
  * Remember you'll have to create a mask and then apply that mask
@@ -278,8 +280,12 @@ it's mean gage height.
  * Not all counties will have data
 ```{r}
 #Group and summarize
-mean_gage_county<-counties_gage_join %>%
-  drop_na(counties_gage_join)%>%
+
+#drop na
+counties_gage_join_no_NA<-drop_na(counties_gage_join)
+
+#find mean of gage height
+mean_gage_county<-counties_gage_join_no_NA %>%
   group_by(NAME)%>%
   summarize(MEAN_GAGE_HEIGHT = mean(gage_ht))
 
